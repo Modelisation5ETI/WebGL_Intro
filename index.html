@@ -50,24 +50,24 @@
     cameraDirection = cameraDirection.normalize();
     var up = new BABYLON.Vector3(0, 1, 0);
     
-    switch( event.key )
+    switch( event.keyCode )
     {
       // Update velocity using "zqsd" keys
-      case 'z': 
+      case 38: //UP
         sphere.physicsImpostor.applyImpulse( cameraDirection.negate(), sphere.getAbsolutePosition() );
         break;
-      case 's': 
+      case 40: //DOWN
         sphere.physicsImpostor.applyImpulse( cameraDirection, sphere.getAbsolutePosition() );
         break;
-      case 'd': 
+      case 39: //RIGHT
         sphere.physicsImpostor.applyImpulse( BABYLON.Vector3.Cross(cameraDirection, up), sphere.getAbsolutePosition() );
         break;
-      case 'q': 
+      case 37: //LEFT
         sphere.physicsImpostor.applyImpulse( BABYLON.Vector3.Cross(cameraDirection, up).negate(), sphere.getAbsolutePosition() );
         break;
   
       // Reset sphere position and velocity
-      case ' ': 
+      case 32: //SPACE
         sphere.position = new BABYLON.Vector3( 0, 20, 0 );
         sphere.physicsImpostor.setLinearVelocity( new BABYLON.Vector3( 0, 0, 0 ) );
         sphere.physicsImpostor.setAngularVelocity( new BABYLON.Vector3( 0, 0, 0 ) );
