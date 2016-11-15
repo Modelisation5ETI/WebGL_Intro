@@ -33,9 +33,40 @@
 
   var sphere;
 
+  var clamp = function( nb, min, max )
+  {
+  if( nb < min )
+    return min;
+  if( nb > max )
+    return max;
+  return nb;
+  }
+  
   var OnKeyDown = function( event )
   {
-    sphere.physicsImpostor.applyImpulse( new BABYLON.Vector3(1, 1, 0), sphere.getAbsolutePosition() );
+    // Update velocity using "zqsd" keys
+    switch( event.key )
+    {
+      case 'z': 
+        sphere.physicsImpostor.applyImpulse( new BABYLON.Vector3(-1, 0, 0), sphere.getAbsolutePosition() );
+        break;
+      case 's': 
+        sphere.physicsImpostor.applyImpulse( new BABYLON.Vector3(1, 0, 0), sphere.getAbsolutePosition() );
+        break;
+      case 'd': 
+        sphere.physicsImpostor.applyImpulse( new BABYLON.Vector3(0, 0, 1), sphere.getAbsolutePosition() );
+        break;
+      case 'q': 
+        sphere.physicsImpostor.applyImpulse( new BABYLON.Vector3(0, 0, -1), sphere.getAbsolutePosition() );
+        break;
+    }
+    
+    //Clamp velocity
+    speedLimit = 10;
+    x_velocity = clamp( sphere.physicsImpostor.getLinearVelocity().x, -speedLimit, speedLimit );
+    y_velocity = clamp( sphere.physicsImpostor.getLinearVelocity().y, -speedLimit, speedLimit );
+    z_velocity = clamp( sphere.physicsImpostor.getLinearVelocity().z, -speedLimit, speedLimit );
+    sphere.physicsImpostor.setLinearVelocity( new BABYLON.Vector3( x_velocity, y_velocity, z_velocity ) );
   }
       
   var createScene = function() 
