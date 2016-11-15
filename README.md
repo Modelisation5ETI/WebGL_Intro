@@ -1,6 +1,6 @@
 -----
+[**Visualize page**](https://rawgit.com/Modelisation5ETI/WebGL_Intro/master/index.html)
 [**Visualize page**](http://htmlpreview.github.io/?https://github.com/Modelisation5ETI/WebGL_Intro/master/index.html)
-
 -----
 
 
