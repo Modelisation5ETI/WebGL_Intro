@@ -44,9 +44,9 @@
   
   var OnKeyDown = function( event )
   {
-    // Update velocity using "zqsd" keys
     switch( event.key )
     {
+      // Update velocity using "zqsd" keys
       case 'z': 
         sphere.physicsImpostor.applyImpulse( new BABYLON.Vector3(-1, 0, 0), sphere.getAbsolutePosition() );
         break;
@@ -58,6 +58,13 @@
         break;
       case 'q': 
         sphere.physicsImpostor.applyImpulse( new BABYLON.Vector3(0, 0, -1), sphere.getAbsolutePosition() );
+        break;
+        
+      // Reset sphere position and velocity
+      case ' ': 
+        sphere.position = new BABYLON.Vector3( 0, 20, 0 );
+        sphere.physicsImpostor.setLinearVelocity( new BABYLON.Vector3( 0, 0, 0 ) );
+        sphere.physicsImpostor.setAngularVelocity( new BABYLON.Vector3( 0, 0, 0 ) );
         break;
     }
     
@@ -77,11 +84,6 @@
     var gravityVector = new BABYLON.Vector3( 0,-9.81, 0 );
     var physicsPlugin = new BABYLON.CannonJSPlugin();
     scene.enablePhysics( gravityVector, physicsPlugin );
-
-    // Light
-    var spot = new BABYLON.PointLight( "spot", new BABYLON.Vector3(0, 30, 10), scene );
-    spot.diffuse = new BABYLON.Color3( 1, 1, 1 );
-    spot.specular = new BABYLON.Color3( 0, 0, 0 );
 
     // Camera
     var camera = new BABYLON.ArcRotateCamera( "Camera", 0, 0.8, 100, BABYLON.Vector3.Zero(), scene );
@@ -132,19 +134,41 @@
     skyboxMaterial.disableLighting = true;
     skybox.material = skyboxMaterial;
     
+    // Light
+    var spot = new BABYLON.PointLight( "spot", new BABYLON.Vector3(0, 30, 10), scene );
+    spot.diffuse = new BABYLON.Color3( 1, 1, 1 );
+    spot.specular = new BABYLON.Color3( 0, 0, 0 );
+    
     //Sphere to see the light's position
     var sun = BABYLON.Mesh.CreateSphere( "sun", 10, 4, scene );
     sun.material = new BABYLON.StandardMaterial( "sun", scene );
     sun.material.emissiveColor = new BABYLON.Color3( 1, 1, 0 );
 
     //Sun animation
+    var t = 180;
+    var dt = 0.01;
+    var R = 100;
     scene.registerBeforeRender( 
       function()
       {
+        // Update mesh position
         sun.position = spot.position;
-        spot.position.x -= 0.5;
-        if( spot.position.x < -90 )
-          spot.position.x = 100;
+        // Update light position
+        t -= dt;
+        x = R * Math.cos(t);
+        y = R * Math.sin(t);
+        spot.position = new BABYLON.Vector3( x, y, 0 );
+        
+        // Decrease light intensity when sun is set to avoid shadows on the sphere
+        if( spot.position.y < 0 )
+          {
+          spot.intensity -= 0.05*Math.cos(t) ;
+          t -= 5*dt;
+          }
+        else
+          {
+          spot.intensity = 1;
+          }
       } );
     
 
