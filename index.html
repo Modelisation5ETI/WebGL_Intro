@@ -20,6 +20,7 @@
       }
   </style>
   <script src="Babylon.js-master/dist/babylon.2.4.js"></script>
+  <script src="Babylon.js-master/materialsLibrary/dist/babylon.waterMaterial.js"></script>
   <script src="handjs-master/binhand.js"></script>
   <script src="cannon.js-master/build/cannon.js"></script> 
 </head>
@@ -31,9 +32,16 @@
   // Load the BABYLON 3D engine
   var engine = new BABYLON.Engine(canvas, true);
 
+  // Scene global variable
   var sphere;
   var camera;
+  var skybox;
+  
+  var waterBool = false;//Indicate wether or not to draw water
 
+  //******************//
+  //  Clamp
+  //******************//
   var clamp = function( nb, min, max )
   {
   if( nb < min )
@@ -43,6 +51,9 @@
   return nb;
   }
   
+  //******************//
+  //  Key Down Event
+  //******************//
   var OnKeyDown = function( event )
   { 
     // Compute cameraDirection
@@ -72,6 +83,19 @@
         sphere.physicsImpostor.setLinearVelocity( new BABYLON.Vector3( 0, 0, 0 ) );
         sphere.physicsImpostor.setAngularVelocity( new BABYLON.Vector3( 0, 0, 0 ) );
         break;
+      
+      // Water effect active / disabled
+      case 87: //KEY_W
+        waterBool = !waterBool;
+        if(waterBool)
+        {
+        scene = createScene();
+        }
+        else
+        {
+        scene = createScene();
+        }
+        break;
     }
     
     //Clamp velocity
@@ -81,7 +105,30 @@
     z_velocity = clamp( sphere.physicsImpostor.getLinearVelocity().z, -speedLimit, speedLimit );
     sphere.physicsImpostor.setLinearVelocity( new BABYLON.Vector3( x_velocity, y_velocity, z_velocity ) );
   }
-      
+  
+  //*****************************//
+  //  Create Instruction Canvas
+  //*****************************//
+  var createInstructionCanvas = function (scene)
+  {
+    var text2D = "ROLL ON EARTH \n\nSPACE : restart \nARROWS : move sphere \nw : activate / desactivate water effect"
+  
+    var canvas = new BABYLON.ScreenSpaceCanvas2D( scene, { 
+      id: "canvas",
+      size: new BABYLON.Size(400, 150),
+      backgroundFill: "#4040408F",
+      backgroundRoundRadius: 50,
+      children: [ new BABYLON.Text2D( text2D, {
+                      id: "InstructionText",
+                      marginAlignment: "h: center, v:center",
+                      fontName: "15pt Arial" } ) ] } );
+
+    return canvas;
+  };
+  
+  //****************//
+  //  Create Scene
+  //****************//
   var createScene = function() 
   {
     var scene = new BABYLON.Scene(engine);
@@ -129,7 +176,7 @@
     var skybox = BABYLON.Mesh.CreateBox( "skyBox", 800.0, scene );
     var skyboxMaterial = new BABYLON.StandardMaterial( "skyBox", scene );
     skyboxMaterial.backFaceCulling = false;
-    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture( "data/sky34", scene );
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture( "data/sky11", scene );
     skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
     skyboxMaterial.diffuseColor = new BABYLON.Color3( 0, 0, 0 );
     skyboxMaterial.specularColor = new BABYLON.Color3( 0, 0, 0 );
@@ -173,6 +220,29 @@
           }
       } );
 
+    // Water effect
+    if( waterBool ) // if water effect is active 
+    {
+      var waterMesh = BABYLON.Mesh.CreateGround( "waterMesh", 2048, 2048, 16, scene, false );
+      var water = new BABYLON.WaterMaterial( "water", scene, new BABYLON.Vector2(512, 512) );          
+      water.backFaceCulling = true;
+      water.bumpTexture = new BABYLON.Texture( "data/bump.jpg", scene );
+      water.windForce = 0.5;
+      water.waveHeight = 0.007;
+      water.bumpHeight = 0.1;
+      water.windDirection = new BABYLON.Vector2( 1, 1 );
+      water.waterColor = new BABYLON.Color3( 0, 0, 221/255 );
+      water.colorBlendFactor = 0.0;
+      water.addToRenderList( skybox );
+      water.addToRenderList( ground );
+      waterMesh.material = water;
+      
+      waterMesh.position = new BABYLON.Vector3(0,0.48,0);
+    }
+  
+    // Show Instructions canvas
+    createInstructionCanvas( scene );
+     
     return scene;
   }
 
