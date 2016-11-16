@@ -45,7 +45,7 @@ Des maillages simples tels que le cube, la sphère ou encore le cylindre sont di
                              scene );  // Scène
 ```
 
-La sphère constitue le personnage principal de la scène et elle peut être déplacée à l'aide des touches directionnelles du clavier. Il est alors nécessaire d'assigner un imposteur à celle-ci afin d'ajouter une friction:
+La sphère constitue le personnage principal de la scène et elle peut être déplacée à l'aide des touches directionnelles du clavier. Il est alors nécessaire d'assigner un imposteur à celle-ci:
 ```javascript  
   sphere.physicsImpostor = new BABYLON.PhysicsImpostor( sphere,
     BABYLON.PhysicsImpostor.SphereImpostor,     // Type d'imposteur
