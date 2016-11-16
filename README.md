@@ -17,7 +17,7 @@ Le but du TP est d'apprendre à utiliser WebGL, une API Javascript de rendu inte
 **Implementation**
 
 -----
-Nous avons réalisé une scène représentant un planisphère en relief sur lequel une sphere roule et rentre en collision avec les montagnes. L'utilisateur peut déplacer la sphère avec les flèches du clavier et peut ajouter un effet d'eau en mouvement sur l'océan avec la touche "w" du clavier. La barre d'espace, recommence la scène du début. 
+Nous avons réalisé une scène représentant un planisphère en relief sur lequel une sphere roule et rentre en collision avec les montagnes. L'utilisateur peut déplacer la sphère avec les flèches du clavier et peut ajouter un effet d'eau en mouvement sur l'océan avec la touche "w" du clavier. La barre d'espace permet de réinitialiser la position de la sphère. 
 
 La scène est composée d'éléments disponibles nativement dans Babylon.js afin de mettre en évidence l'étendue des possibilités qu'offre WebGL.
 Nous utilisons également l'extension waterMaterial de Babylon.js pour un rendre un effet d'eau en mouvement.  
@@ -105,9 +105,9 @@ Un soleil est modélisé à l'aide d'un maillage sphère et d'une Spotlight. Une
 
 L'océan (qui peut être ajouté avec la touche 'w'), est constitué d'un plan auquel on applique un matériau d'effet d'eau. Ce matériau est disponible dans Babylon.js en incluant le script 'Babylon.js-master/materialsLibrary/dist/babylon.waterMaterial.js'.
 
-Le matériau eau reflète avec la skybox, et les paramètres de vent, hauteur des vagues, couleur etc. on été réglé afin d'obtenir une scène la plus réelle possible.
+Le matériau eau reflète la skybox et le terrain. Les paramètres de vent, hauteur des vagues, couleur etc. on été réglé afin d'obtenir une scène la plus réelle possible.
 
-Cependant, l'ajout de matériau eau qui reflète avec la skybox est très coûteux en calcul graphique(réflection de l'eau) et il entraine une baisse de la fluidité des déplacements de la sphère.
+Cependant, l'ajout de ce matériau est très coûteux en calcul graphique(réflection de l'eau) et il entraine une baisse de la fluidité des déplacements de la sphère.
 
 
 **Rendu final avec un effet d'eau en mouvement**
