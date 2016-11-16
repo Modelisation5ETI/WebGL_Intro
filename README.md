@@ -17,13 +17,14 @@ Le but du TP est d'apprendre à utiliser WebGL, une API Javascript de rendu inte
 **Implementation**
 
 -----
-Nous avons réalisé une scène représentant un planisphère en relief sur lequel une sphere roule et rentre en collision avec les montagnes. L'utilisateur peut déplacer la sphère avec les flèches du clavier et peut ajouter un effet d'eau en mouvement sur l'océan avec la touche "w" du clavier. 
+Nous avons réalisé une scène représentant un planisphère en relief sur lequel une sphere roule et rentre en collision avec les montagnes. L'utilisateur peut déplacer la sphère avec les flèches du clavier et peut ajouter un effet d'eau en mouvement sur l'océan avec la touche "w" du clavier. La barre d'espace, recommence la scène du début. 
 
 La scène est composée d'éléments disponibles nativement dans Babylon.js afin de mettre en évidence l'étendue des possibilités qu'offre WebGL.
 Nous utilisons également l'extension waterMaterial de Babylon.js pour un rendre un effet d'eau en mouvement.  
 
 **Scène**
 
+La scène est créée dans la fonction createScene() dans le script javascript du ficher HTML index.html. 
 On utilise cannon.js pour la gestion des collisions et de la physique. Un vecteur de gravité d'une valeur de -9.81 est appliqué continuellement selon l'axe y : 
 
 *Gestion de la physique :* 
@@ -51,7 +52,7 @@ La sphère constitue le personnage principal de la scène et elle peut être dé
     { mass: 1, restitution: 0, friction: 0.1 }, // Paramètres physiques
     scene );                                    // Scène
 ```
-La friction entraine la rotation de la sphère est rend son déplacement réaliste. 
+La friction entraine la rotation de la sphère est rend son déplacement réaliste lors de l'ajout d'une impulsion selon une direction. 
 
 Il est également possible d'ajouter un matériau au maillage. Dans notre cas, on créé un matériau standard auquel on applique une texture :
 ```javascript  
@@ -88,7 +89,7 @@ Certains comportement similaires pour d'autres projets sont expliqués [ici](htt
 
 *Skybox :*
 
-On ajoute une Skybox en créant un cube que l'on texture à l'aide de la méthode suivante :
+On ajoute une Skybox afin de créé un environnement autour de la scène. La skybox est créée  à partir d'un cube que l'on texture à l'aide de la méthode suivante :
  ```javascript  
 BABYLON.CubeTexture( rootUrl, scene, extensions, noMipmap, files )
  ```
@@ -104,10 +105,9 @@ Un soleil est modélisé à l'aide d'un maillage sphère et d'une Spotlight. Une
 
 L'océan (qui peut être ajouté avec la touche 'w'), est constitué d'un plan auquel on applique un matériau d'effet d'eau. Ce matériau est disponible dans Babylon.js en incluant le script 'Babylon.js-master/materialsLibrary/dist/babylon.waterMaterial.js'.
 
-**Gestion du clavier**
+Le matériau eau reflète avec la skybox, et les paramètres de vent, hauteur des vagues, couleur etc. on été réglé afin d'obtenir une scène la plus réelle possible.
 
-
-**Texte contenant les instructions**
+Cependant, l'ajout de matériau eau qui reflète avec la skybox est très coûteux en calcul graphique(réflection de l'eau) et il entraine une baisse de la fluidité des déplacements de la sphère.
 
 
 **Rendu final avec un effet d'eau en mouvement**
