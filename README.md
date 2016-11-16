@@ -87,3 +87,4 @@ Un soleil est modélisé à l'aide d'un maillage sphère et d'une Spotlight. Une
 
 L'océan (qui peut être ajouté avec la touche 'w'), est constitué d'un plan auquel on applique un matériau d'effet d'eau. Ce matériau est disponible dans Babylon.js en incluant le script 'Babylon.js-master/materialsLibrary/dist/babylon.waterMaterial.js'.
 
+ <img src="./screenshot.png" alt="screenshot" width="600" height="300" />
