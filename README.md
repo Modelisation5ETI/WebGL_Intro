@@ -3,7 +3,7 @@
 *Lucas Gandel et Danaële Puechmaille - CPE Lyon - 5ETI*
 
 -----
-[**Visualize page (1)**](https://rawgit.com/Modelisation5ETI/WebGL_Intro/master/index.html) or [**Visualize page (2)**](http://htmlpreview.github.io/?https://github.com/Modelisation5ETI/WebGL_Intro/master/index.html)
+[**Visualize page (1)**](https://rawgit.com/Modelisation5ETI/WebGL_Intro/blob/master/index.html) or [**Visualize page (2)**](http://htmlpreview.github.io/?https://github.com/Modelisation5ETI/WebGL_Intro/blob/master/index.html)
 
 License : Apache 2.0.
 
